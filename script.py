@@ -6,11 +6,13 @@ from yolov5 import detect
 
 CANTEEN_ID = 1
 SERVER_URL = 'http://testurl.com'
+INTERVAL_IN_SECONDS = 5
+
 
 cap = cv2.VideoCapture(0)
 
 while True:
-    time.sleep(5) # wait 5 seconds
+    time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
     ret, frame = cap.read() # capture image
 
     if not ret: # break if capture was not successful
