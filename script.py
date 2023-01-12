@@ -1,5 +1,6 @@
 import cv2
 import time
+import datetime
 import os
 import requests
 from yolov5 import detect
@@ -7,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv() # read environment variables
 
-CANTEEN_ID = os.environ.get("CANTEEN_ID")
+CANTEEN_ID = int(os.environ.get("CANTEEN_ID"))
 SERVER_URL = os.environ.get("SERVER_URL")
 INTERVAL_IN_SECONDS = int(os.environ.get("INTERVAL_IN_SECONDS"))
 MODE = os.environ.get("MODE")
@@ -34,12 +35,12 @@ while True:
     # count how many lines are in the detection file
     # this is equivalent to the number of people detected
     num_persons = sum(1 for _ in open('./yolov5/runs/detect/exp/labels/test.txt'))
-    current_timestamp = time.time()
+    current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
     snapshot = {
         "date": current_timestamp,
         "count": num_persons,
-        "canteen": CANTEEN_ID,
-        "mode": MODE
+        "canteen_ID": CANTEEN_ID,
+        # "mode": MODE
     }
     print(snapshot)
 
