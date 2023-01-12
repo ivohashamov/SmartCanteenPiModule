@@ -3,11 +3,14 @@ import time
 import os
 import requests
 from yolov5 import detect
+from dotenv import load_dotenv
 
-CANTEEN_ID = 1
-SERVER_URL = 'http://testurl.com'
-INTERVAL_IN_SECONDS = 5
+load_dotenv() # read environment variables
 
+CANTEEN_ID = os.environ.get("CANTEEN_ID")
+SERVER_URL = os.environ.get("SERVER_URL")
+INTERVAL_IN_SECONDS = int(os.environ.get("INTERVAL_IN_SECONDS"))
+MODE = os.environ.get("MODE")
 
 cap = cv2.VideoCapture(0)
 
@@ -35,7 +38,8 @@ while True:
     snapshot = {
         "date": current_timestamp,
         "count": num_persons,
-        "canteen": CANTEEN_ID
+        "canteen": CANTEEN_ID,
+        "mode": MODE
     }
     print(snapshot)
 
