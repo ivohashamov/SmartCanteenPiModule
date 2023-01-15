@@ -16,19 +16,25 @@ MODE = os.environ.get("MODE")
 OUTPUT_FILE = os.environ.get("OUTPUT_FILE")
 SNAPSHOT_NAME = os.environ.get("SNAPSHOT_NAME")
 
-print('Program starting')
-
-cap = cv2.VideoCapture(0)
+print('------- Program starting -------')
 
 try:
     while True:
+        print('------- Iteration starting -------')
         time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
+
+        cap = cv2.VideoCapture(0)
+        time.sleep(1.5)
         ret, frame = cap.read() # capture image
 
         if not ret: # break if capture was not successful
             break
 
         cv2.imwrite(SNAPSHOT_NAME, frame) # save captured image
+        print ('Image captured')
+
+        cap.release()
+        cv2.destroyAllWindows()
 
         # run person detection script on captured image
         # source - the image to analyse
@@ -69,7 +75,4 @@ try:
         os.remove(SNAPSHOT_NAME)
 except KeyboardInterrupt:
     print('\nProgram interrupted')
-
-cap.release()
-cv2.destroyAllWindows()
 
