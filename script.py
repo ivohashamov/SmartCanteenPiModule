@@ -34,9 +34,9 @@ try:
         # source - the image to analyse
         # save_txt - whether coordiantes of detected objects should be saved in a txt file
         # classes - which classes should be detected in the image - 0 belongs to the 'person' class
-        # conf_thresh - threshold for when an object is labeled as its class - 0.5 means 50% confidence
+        # conf_thresh - threshold for when an object is labeled as its class - 0.4 means 40% confidence
         # exist_ok - whether the files from previous runs should be overwritten
-        detect.run(source='snapshot.png', save_txt=True, classes=0, conf_thres=0.5, exist_ok=True)
+        detect.run(source='snapshot.png', save_txt=True, classes=0, conf_thres=0.4, exist_ok=True)
 
         # count how many lines are in the detection file
         # this is equivalent to the number of people detected
