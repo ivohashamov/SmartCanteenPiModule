@@ -64,7 +64,7 @@ try:
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
-            "ID": ID,
+            "entity_id": ID,
             "mode": MODE
         }
         print(snapshot)
