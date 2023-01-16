@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv() # read environment variables
 
-CANTEEN_ID = int(os.environ.get("CANTEEN_ID"))
+ID = int(os.environ.get("ID"))
 SERVER_URL = os.environ.get("SERVER_URL")
 INTERVAL_IN_SECONDS = int(os.environ.get("INTERVAL_IN_SECONDS"))
 MODE = os.environ.get("MODE")
@@ -16,11 +16,15 @@ MODE = os.environ.get("MODE")
 OUTPUT_FILE = os.environ.get("OUTPUT_FILE")
 SNAPSHOT_NAME = os.environ.get("SNAPSHOT_NAME")
 
+counter = 1
+
 print('------- Program starting -------')
 
 try:
     while True:
-        print('------- Iteration starting -------')
+        print('------- Iteration starting -------', counter)
+        counter += 1
+
         time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
 
         cap = cv2.VideoCapture(0)
@@ -42,7 +46,7 @@ try:
         # classes - which classes should be detected in the image - 0 belongs to the 'person' class
         # conf_thresh - threshold for when an object is labeled as its class - 0.4 means 40% confidence
         # exist_ok - whether the files from previous runs should be overwritten
-        detect.run(source='snapshot.png', save_txt=True, classes=0, conf_thres=0.4, exist_ok=True)
+        detect.run(source=SNAPSHOT_NAME, save_txt=True, classes=0, conf_thres=0.4, exist_ok=True)
 
         # count how many lines are in the detection file
         # this is equivalent to the number of people detected
@@ -60,7 +64,7 @@ try:
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
-            "canteen_ID": CANTEEN_ID,
+            "ID": ID,
             "mode": MODE
         }
         print(snapshot)
@@ -76,3 +80,5 @@ try:
 except KeyboardInterrupt:
     print('\nProgram interrupted')
 
+cap.release()
+cv2.destroyAllWindows()
