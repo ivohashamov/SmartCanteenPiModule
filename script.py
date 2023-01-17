@@ -72,7 +72,11 @@ try:
         print(snapshot)
 
         # send snapshot to the server
-        req = requests.post(SERVER_URL, json=snapshot)
+        try:
+            res = requests.post(SERVER_URL, json=snapshot)
+            print("Request was successful")
+        except:
+            print("Server not reachable")
 
         # cleanup old files
         if num_persons > 0:
