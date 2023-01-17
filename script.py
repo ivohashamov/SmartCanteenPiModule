@@ -44,9 +44,11 @@ try:
         # source - the image to analyse
         # save_txt - whether coordiantes of detected objects should be saved in a txt file
         # classes - which classes should be detected in the image - 0 belongs to the 'person' class
-        # conf_thresh - threshold for when an object is labeled as its class - 0.4 means 40% confidence
+        # conf_thresh - threshold for when an object is labeled as its class - 0.3 means 30% confidence
         # exist_ok - whether the files from previous runs should be overwritten
-        detect.run(source=SNAPSHOT_NAME, save_txt=True, classes=0, conf_thres=0.4, exist_ok=True)
+        # weights - indicates model size, the yolov5n is the smalles model for the fastest inference
+        # imgsz - determines input image size, smaller image sizes lead to faster preprocessing and inference
+        detect.run(source=SNAPSHOT_NAME, save_txt=True, classes=0, conf_thres=0.3, exist_ok=True, weights='yolov5/yolov5n.pt', imgsz=(320,320))
 
         # count how many lines are in the detection file
         # this is equivalent to the number of people detected
