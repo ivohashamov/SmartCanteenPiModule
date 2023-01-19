@@ -35,7 +35,7 @@ try:
             break
 
         cv2.imwrite(SNAPSHOT_NAME, frame) # save captured image
-        print ('Image captured')
+        print('Image captured')
 
         cap.release()
         cv2.destroyAllWindows()
@@ -53,10 +53,26 @@ try:
         # count how many lines are in the detection file
         # this is equivalent to the number of people detected
         num_persons = 0
+        coordinates = []
         try:
             with open(OUTPUT_FILE, 'r') as f:
-                num_persons = sum(1 for _ in f)
+                while True:
+                    line = f.readline()
+                    if not line:
+                        break
+                    num_persons += 1
+                    
+                    coordinates_arr = line.split()
+                    coordinates_snapshot = {
+                        "x": coordinates_arr[1],
+                        "y": coordinates_arr[2],
+                        "w": coordinates_arr[3],
+                        "h": coordinates_arr[4]
+                    }
+                    coordinates.append(coordinates_snapshot)
+                # num_persons = sum(1 for _ in f)
                 print('People detected:', num_persons)
+                f.close()
         except:
             print("No people detected")
 
@@ -66,7 +82,8 @@ try:
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
-            "entity_id": ID
+            "ID_ID": ID
+            # "coordinates": coordinates
         }
         print(snapshot)
 
