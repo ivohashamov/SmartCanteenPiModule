@@ -66,14 +66,15 @@ try:
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
-            "entity_id": ID,
-            "mode": MODE
+            "entity_id": ID
         }
         print(snapshot)
 
+        url = SERVER_URL + "/" + MODE
+        print("Sending data to", url)
         # send snapshot to the server
         try:
-            res = requests.post(SERVER_URL, json=snapshot)
+            res = requests.post(url, json=snapshot)
             print("Request was successful")
         except:
             print("Server not reachable")
