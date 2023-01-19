@@ -22,7 +22,7 @@ print('------- Program starting -------')
 
 try:
     while True:
-        print('------- Iteration starting -------', counter)
+        print("------- Iteration %d starting -------" % counter)
         counter += 1
 
         time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
@@ -50,18 +50,25 @@ try:
         # imgsz - determines input image size, smaller image sizes lead to faster preprocessing and inference
         detect.run(source=SNAPSHOT_NAME, save_txt=True, classes=0, conf_thres=0.3, exist_ok=True, weights='yolov5/yolov5n.pt', imgsz=(320,320))
 
-        # count how many lines are in the detection file
-        # this is equivalent to the number of people detected
         num_persons = 0
         coordinates = []
         try:
+            # open output file which contains information about the detected people
             with open(OUTPUT_FILE, 'r') as f:
                 while True:
+                    # each detected person's informationn is saved on a separate line in the file
                     line = f.readline()
                     if not line:
                         break
                     num_persons += 1
                     
+                    # read and save the coordinates, detected for the person in the format is (l, x, y, w, h):
+                    # l - the label of the detecte object - in our case it is always 0 - a person
+                    # x - the x coordinate of the edge of the detected object
+                    # y - the y coordinate of the edge of the detected object
+                    # w - the width of the detected object, starting from x
+                    # h - the height of the detect object, starting from y
+                    # each of the x, y, w, h is a decimal from 0 to 1, representing a proportion of the width/height of the photo
                     coordinates_arr = line.split()
                     coordinates_snapshot = {
                         "x": coordinates_arr[1],
@@ -70,7 +77,7 @@ try:
                         "h": coordinates_arr[4]
                     }
                     coordinates.append(coordinates_snapshot)
-                # num_persons = sum(1 for _ in f)
+                    
                 print('People detected:', num_persons)
                 f.close()
         except:
