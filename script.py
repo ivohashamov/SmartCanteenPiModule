@@ -3,6 +3,7 @@ import time
 import datetime
 import os
 import requests
+import shutil
 from yolov5 import detect
 from dotenv import load_dotenv
 
@@ -14,7 +15,9 @@ INTERVAL_IN_SECONDS = int(os.environ.get("INTERVAL_IN_SECONDS"))
 MODE = os.environ.get("MODE")
 
 OUTPUT_FILE = os.environ.get("OUTPUT_FILE")
+OUTPUT_IMAGE = os.environ.get("OUTPUT_IMAGE")
 SNAPSHOT_NAME = os.environ.get("SNAPSHOT_NAME")
+IMAGES_DIRECTORY = os.environ.get("IMAGES_DIRECTORY")
 
 counter = 1
 
@@ -102,6 +105,10 @@ try:
             print("Request was successful")
         except:
             print("Server not reachable")
+        
+        COPIED_IMAGE_LOCATION = IMAGES_DIRECTORY + "/snapshot_" + str(counter - 1) + ".png"
+
+        shutil.copyfile(OUTPUT_IMAGE, COPIED_IMAGE_LOCATION)
 
         # cleanup old files
         if num_persons > 0:
