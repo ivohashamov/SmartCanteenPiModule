@@ -2,6 +2,7 @@ import cv2
 import time
 import datetime
 import os
+import glob
 import requests
 import shutil
 from yolov5 import detect
@@ -23,15 +24,22 @@ counter = 1
 
 print('------- Program starting -------')
 
+files = glob.glob('/images/*.png')
+
+# clear images from previous run
+for f in files:
+    try:
+        os.remove(f)
+    except OSError as e:
+        print("Error: %s : %s" % (f, e.strerror))
+
 try:
     while True:
         print("------- Iteration %d starting -------" % counter)
         counter += 1
 
-        time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
-
         cap = cv2.VideoCapture(0)
-        time.sleep(1.5)
+        time.sleep(2)
         ret, frame = cap.read() # capture image
 
         if not ret: # break if capture was not successful
@@ -86,14 +94,24 @@ try:
         except:
             print("No people detected")
 
+        
+        current_date = datetime.datetime.now()
+
         # get current timestamp in the YYYY-mm-ddTHH:MM:SS.msZ format
-        current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        current_timestamp = current_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+        weekdays = dict([(0, 'mon'), (1, 'tue'), (2, 'wed'), (3, 'thu'), (4, 'fri'), (5, 'sat'), (6, 'sun')])
+
+        # map the integer return value of the current weekday to string
+        current_weekday = weekdays[current_date.weekday()]
+ 
 
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
             "entity_ID": ID,
-            "coordinates": coordinates
+            "coordinates": coordinates,
+            "weekday": current_weekday
         }
         print(snapshot)
 
@@ -115,6 +133,8 @@ try:
             os.remove(OUTPUT_FILE)
         
         os.remove(SNAPSHOT_NAME)
+
+        time.sleep(INTERVAL_IN_SECONDS) # wait a specific interval seconds
 except KeyboardInterrupt:
     print('\nProgram interrupted')
 
