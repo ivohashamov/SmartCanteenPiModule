@@ -104,14 +104,16 @@ try:
 
         # map the integer return value of the current weekday to string
         current_weekday = weekdays[current_date.weekday()]
- 
+        
+        current_hour = current_date.hour
 
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
             "entity_ID": ID,
             "coordinates": coordinates,
-            "weekday": current_weekday
+            "weekday": current_weekday,
+            "hour": current_hour
         }
         print(snapshot)
 
