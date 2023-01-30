@@ -100,11 +100,11 @@ try:
         # get current timestamp in the YYYY-mm-ddTHH:MM:SS.msZ format
         current_timestamp = current_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-        weekdays = dict([(0, 'mon'), (1, 'tue'), (2, 'wed'), (3, 'thu'), (4, 'fri'), (5, 'sat'), (6, 'sun')])
+        weekdays = dict([(0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')])
 
         # map the integer return value of the current weekday to string
         current_weekday = weekdays[current_date.weekday()]
-        
+
         current_hour = current_date.hour
 
         snapshot = {
