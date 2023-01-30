@@ -24,7 +24,7 @@ counter = 1
 
 print('------- Program starting -------')
 
-files = glob.glob('/images/*.png')
+files = glob.glob('images/*.png')
 
 # clear images from previous run
 for f in files:
