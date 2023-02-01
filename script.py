@@ -126,9 +126,9 @@ try:
         except:
             print("Server not reachable")
         
-        COPIED_IMAGE_LOCATION = IMAGES_DIRECTORY + "/snapshot_" + str(counter - 1) + ".png"
+        # COPIED_IMAGE_LOCATION = IMAGES_DIRECTORY + "/snapshot_" + str(counter - 1) + ".png"
 
-        shutil.copyfile(OUTPUT_IMAGE, COPIED_IMAGE_LOCATION)
+        # shutil.copyfile(OUTPUT_IMAGE, COPIED_IMAGE_LOCATION)
 
         # cleanup old files
         if num_persons > 0:
