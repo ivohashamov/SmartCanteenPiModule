@@ -19,6 +19,7 @@ OUTPUT_FILE = os.environ.get("OUTPUT_FILE")
 OUTPUT_IMAGE = os.environ.get("OUTPUT_IMAGE")
 SNAPSHOT_NAME = os.environ.get("SNAPSHOT_NAME")
 IMAGES_DIRECTORY = os.environ.get("IMAGES_DIRECTORY")
+SAVE_IMAGES = os.environ.get("SAVE_IMAGES") == 'True'
 
 counter = 1
 
@@ -125,10 +126,11 @@ try:
             print("Request was successful")
         except:
             print("Server not reachable")
-        
-        # COPIED_IMAGE_LOCATION = IMAGES_DIRECTORY + "/snapshot_" + str(counter - 1) + ".png"
 
-        # shutil.copyfile(OUTPUT_IMAGE, COPIED_IMAGE_LOCATION)
+        # persist images from run
+        if (SAVE_IMAGES):
+            COPIED_IMAGE_LOCATION = IMAGES_DIRECTORY + "/snapshot_" + str(counter - 1) + ".png"
+            shutil.copyfile(OUTPUT_IMAGE, COPIED_IMAGE_LOCATION)
 
         # cleanup old files
         if num_persons > 0:
