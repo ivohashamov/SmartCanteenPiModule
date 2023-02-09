@@ -27,7 +27,7 @@ print('------- Program starting -------')
 
 files = glob.glob('images/*.png')
 
-# clear images from previous run
+# clear images the from previous run
 for f in files:
     try:
         os.remove(f)
@@ -49,14 +49,15 @@ try:
         cv2.imwrite(SNAPSHOT_NAME, frame) # save captured image
         print('Image captured')
 
+        # release camera
         cap.release()
         cv2.destroyAllWindows()
 
-        # run person detection script on captured image
-        # source - the image to analyse
-        # save_txt - whether coordiantes of detected objects should be saved in a txt file
+        # run person detection script on the captured image
+        # source - the image to analyze
+        # save_txt - whether coordinates of detected objects should be saved in a txt file
         # classes - which classes should be detected in the image - 0 belongs to the 'person' class
-        # conf_thresh - threshold for when an object is labeled as its class - 0.3 means 30% confidence
+        # conf_thresh - the threshold for when an object is labeled as its class - 0.3 means 30% confidence
         # exist_ok - whether the files from previous runs should be overwritten
         # weights - indicates model size, the yolov5n is the smallest model for the fastest inference
         # imgsz - determines input image size, smaller image sizes lead to faster preprocessing and inference
@@ -65,22 +66,22 @@ try:
         num_persons = 0
         coordinates = []
         try:
-            # open output file which contains information about the detected people
+            # open the output file which contains information about the detected people
             with open(OUTPUT_FILE, 'r') as f:
                 while True:
-                    # each detected person's informationn is saved on a separate line in the file
+                    # each detected person's information is saved on a separate line in the file
                     line = f.readline()
                     if not line:
                         break
                     num_persons += 1
                     
                     # read and save the coordinates, detected for the person in the format is (l, x, y, w, h):
-                    # l - the label of the detecte object - in our case it is always 0 - a person
+                    # l - the label of the detected object - in our case it is always 0 - a person
                     # x - the x coordinate of the edge of the detected object
                     # y - the y coordinate of the edge of the detected object
                     # w - the width of the detected object, starting from x
-                    # h - the height of the detect object, starting from y
-                    # each of the x, y, w, h is a decimal from 0 to 1, representing a proportion of the width/height of the photo
+                    # h - the height of the detected object, starting from y
+                    # each of the x, y, w, and h is a decimal from 0 to 1, representing a proportion of the width/height of the photo
                     coordinates_arr = line.split()
                     coordinates_snapshot = {
                         "x": coordinates_arr[1],
@@ -101,20 +102,11 @@ try:
         # get current timestamp in the YYYY-mm-ddTHH:MM:SS.msZ format
         current_timestamp = current_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-        weekdays = dict([(0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')])
-
-        # map the integer return value of the current weekday to string
-        current_weekday = weekdays[current_date.weekday()]
-
-        current_hour = current_date.hour
-
         snapshot = {
             "date": current_timestamp,
             "count": num_persons,
             "entity_ID": ID,
             "coordinates": coordinates,
-            "weekday": current_weekday,
-            "hour": current_hour
         }
         print(snapshot)
 
